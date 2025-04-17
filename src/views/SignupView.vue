@@ -131,7 +131,8 @@ const onSubmitHandler = async (values, { resetForm }) => {
     if (Array.isArray(err)) {
       alert(err.map(e => e.message).join('\n'))
     } else {
-      toast.error(err.message)
+      toast.error(err.message || JSON.stringify(err))
+
     }
   }
 }
