@@ -14,7 +14,7 @@
         <h2 class="text-4xl font-bold text-gray-900 mb-4">Ready to start your success story?</h2>
         <p class="text-gray-600 mb-8">Signup to our website and start leafing through your favorite literature today!</p>
 
-        <Form @submit="onSubmitHandler" :initial-values="initialValues" :validation-schema="signupSchema" class="space-y-5">
+        <Form  :initial-values="initialValues" :validation-schema="signupSchema" class="space-y-5">
           <!-- Username -->
           <div>
             <label for="username" class="block text-gray-700 font-medium mb-1">Full name</label>
@@ -65,6 +65,7 @@
 
           <!-- Button -->
           <button
+          @click="onSubmitHandler"
             type="submit"
             class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-md transition duration-300 shadow-md"
           >
