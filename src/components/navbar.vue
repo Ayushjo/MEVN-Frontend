@@ -34,8 +34,9 @@
         <li><RouterLink v-if="!auth.token" class="auth-btn" to="/login">Login</RouterLink></li>
         <li>
           <RouterLink v-if="!auth.token" class="auth-btn" to="/signup">Signup</RouterLink>
-          
         </li>
+        <li><RouterLink :to="`/createpost/${auth.user}`">Posts</RouterLink></li>
+        <li><RouterLink to="/about">About</RouterLink></li>
 
         <li><button @click="logout" v-if="auth.token" class="auth-btn">Logout</button></li>
         <li>
