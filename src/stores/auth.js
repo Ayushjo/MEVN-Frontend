@@ -12,7 +12,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async register({ username, email, password }) {
       try {
-        const response = await axios.post(`${process.env.VITE_API_URL}/users/register`, {
+        const response = await axios.post(`https://mevn-backend-3.onrender.com/users/register`, {
           username,
           email,
           password,
@@ -39,7 +39,7 @@ export const useAuthStore = defineStore('auth', {
 
     async login({ username, password }) {
       try {
-        const response = await axios.post(`${process.env.VITE_API_URL}/users/login`, {
+        const response = await axios.post(`https://mevn-backend-3.onrender.com/users/login`, {
           username,
           password,
         })
