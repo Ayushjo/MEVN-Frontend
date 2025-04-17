@@ -42,12 +42,12 @@
         creativity.
       </p>
       <div class="flex justify-center flex-wrap gap-4 animate-slide-in-up delay-300">
-        <button v-if="auth.user"
+        <button 
           class="bg-primary hover:bg-primary/90 text-black border-2 hover:border-0 hover:text-white px-6 py-3 rounded-xl font-medium hover:scale-105 transition shadow-lg hover:shadow-xl"
         >
           Explore Posts
         </button>
-        <RouterLink v-if="auth.user"
+        <RouterLink 
           :to="`/createpost/${auth.user}`"
           class="border-2 border-primary px-6 py-3 rounded-xl font-medium text-primary hover:bg-primary hover:text-white transition shadow-lg hover:shadow-xl"
         >
