@@ -14,7 +14,7 @@ export const usePostStore = defineStore('post', {
       this.loading = true
       this.error = null
       try {
-        const res = await axios.get(`${process.env.VITE_API_URL}/users/getPost`)
+        const res = await axios.get(`http://127.0.0.1:3080/users/getPost`)
         this.posts = res.data
       } catch (err) {
         this.error = err.response?.data?.message || 'Failed to fetch posts'
@@ -26,7 +26,7 @@ export const usePostStore = defineStore('post', {
       this.loading = true
       this.error = null
       try {
-        const res = await axios.get(`${process.env.VITE_API_URL}/users/getPost/${id}`)
+        const res = await axios.get(`http://127.0.0.1:3080/users/getPost/${id}`)
         this.singlePost = res.data
       } catch (error) {
         this.error = err.response?.data?.message || 'Failed to fetch posts'
@@ -38,7 +38,7 @@ export const usePostStore = defineStore('post', {
       this.loading = true
       this.error = null
       try {
-        const res = await axios.get(`${process.env.VITE_API_URL}/users/getUserPost/${userid}`)
+        const res = await axios.get(`http://127.0.0.1:3080/users/getUserPost/${userid}`)
         return res.data
       } catch (error) {
         this.error = err.response?.data?.message || 'Failed to fetch posts'
@@ -50,7 +50,7 @@ export const usePostStore = defineStore('post', {
       this.loading = true
       this.error = null
       try {
-        const res = await axios.get(`${process.env.VITE_API_URL}/users/deletePost/${userid}`)
+        const res = await axios.get(`http://127.0.0.1:3080/users/deletePost/${userid}`)
       } catch (error) {
         this.error = err.response?.data?.message || 'Failed to fetch posts'
       } finally {
@@ -59,7 +59,7 @@ export const usePostStore = defineStore('post', {
     },
     async createPost(formdata, userid) {
       try {
-        const post = await axios.post(`${process.env.VITE_API_URL}/users/post/${userid}`, formdata)
+        const post = await axios.post(`http://127.0.0.1:3080/users/post/${userid}`, formdata)
       } catch (error) {
         this.error = err.response?.data?.message || 'Failed to create post'
       } finally {
@@ -68,10 +68,7 @@ export const usePostStore = defineStore('post', {
     },
     async updatePost(formdata, postid) {
       try {
-        const post = await axios.post(
-          `${process.env.VITE_API_URL}/users/updatePost/${postid}`,
-          formdata,
-        )
+        const post = await axios.post(`http://127.0.0.1:3080/users/updatePost/${postid}`, formdata)
         this.posts = post.data
       } catch (error) {
         this.error = err.response?.data?.message || 'Failed to create post'
