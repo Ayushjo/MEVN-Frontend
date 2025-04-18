@@ -12,7 +12,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async register({ username, email, password }) {
       try {
-        const response = await axios.post(`http://127.0.0.1:3080/users/register`, {
+        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/register`, {
           username,
           email,
           password,
@@ -39,7 +39,7 @@ export const useAuthStore = defineStore('auth', {
 
     async login({ username, password }) {
       try {
-        const response = await axios.post(`http://127.0.0.1:3080/users/login`, {
+        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/login`, {
           username,
           password,
         })
