@@ -12,11 +12,14 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async register({ username, email, password }) {
       try {
-        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/register`, {
-          username,
-          email,
-          password,
-        })
+        const response = await axios.post(
+          `https://mevn-backend-production-a234.up.railway.app/users/register`,
+          {
+            username,
+            email,
+            password,
+          },
+        )
         // Assuming success response is like:
         // { data: { ...user }, message: "User created successfully" }
         this.user = response.data.data._id
@@ -39,10 +42,13 @@ export const useAuthStore = defineStore('auth', {
 
     async login({ username, password }) {
       try {
-        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/login`, {
-          username,
-          password,
-        })
+        const response = await axios.post(
+          `https://mevn-backend-production-a234.up.railway.app/users/login`,
+          {
+            username,
+            password,
+          },
+        )
 
         // Assuming login returns a token and user data
         this.user = response.data.data._id

@@ -14,7 +14,9 @@ export const usePostStore = defineStore('post', {
       this.loading = true
       this.error = null
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/users/getPost`)
+        const res = await axios.get(
+          `https://mevn-backend-production-a234.up.railway.app/users/getPost`,
+        )
         this.posts = res.data
       } catch (err) {
         this.error = err.response?.data?.message || 'Failed to fetch posts'
@@ -26,7 +28,9 @@ export const usePostStore = defineStore('post', {
       this.loading = true
       this.error = null
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/users/getPost/${id}`)
+        const res = await axios.get(
+          `https://mevn-backend-production-a234.up.railway.app/users/getPost/${id}`,
+        )
         this.singlePost = res.data
       } catch (error) {
         this.error = err.response?.data?.message || 'Failed to fetch posts'
@@ -39,7 +43,7 @@ export const usePostStore = defineStore('post', {
       this.error = null
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/users/getUserPost/${userid}`,
+          `https://mevn-backend-production-a234.up.railway.app/users/getUserPost/${userid}`,
         )
         return res.data
       } catch (error) {
@@ -53,7 +57,7 @@ export const usePostStore = defineStore('post', {
       this.error = null
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/users/deletePost/${userid}`,
+          `https://mevn-backend-production-a234.up.railway.app/users/deletePost/${userid}`,
         )
       } catch (error) {
         this.error = err.response?.data?.message || 'Failed to fetch posts'
@@ -64,7 +68,7 @@ export const usePostStore = defineStore('post', {
     async createPost(formdata, userid) {
       try {
         const post = await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/users/post/${userid}`,
+          `https://mevn-backend-production-a234.up.railway.app/users/post/${userid}`,
           formdata,
         )
       } catch (error) {
@@ -76,7 +80,7 @@ export const usePostStore = defineStore('post', {
     async updatePost(formdata, postid) {
       try {
         const post = await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/users/updatePost/${postid}`,
+          `https://mevn-backend-production-a234.up.railway.app/users/updatePost/${postid}`,
           formdata,
         )
         this.posts = post.data
