@@ -18,7 +18,7 @@
           Signup to our website and start leafing through your favorite literature today!
         </p>
 
-        <Form
+        <Form @submit="onSubmitHandler"
           :validation-schema="loginSchema"
           :initial-values="initialValues"
           class="w-full"
@@ -63,7 +63,7 @@
           </div>
 
           <button
-            @click="onSubmitHandler"
+            
             type="submit"
             class="w-full py-3 bg-[#007bff] text-white font-semibold rounded-md hover:bg-[#0056b3] transition-colors"
           >
