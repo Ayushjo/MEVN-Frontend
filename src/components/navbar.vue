@@ -35,10 +35,10 @@
         <li>
           <RouterLink v-if="!auth.token" class="auth-btn" to="/signup">Signup</RouterLink>
         </li>
-        <li><RouterLink  class="auth-btn" :to="`/createpost/${auth.user}`">Posts</RouterLink></li>
+        <li><RouterLink class="auth-btn" :to="`/createpost/${auth.user}`">Posts</RouterLink></li>
         <li><RouterLink class="auth-btn" to="/about">About</RouterLink></li>
 
-        <li><button @click="logout"  class="auth-btn">Logout</button></li>
+        <li><button @click="logout" class="auth-btn">Logout</button></li>
         <li>
           <RouterLink v-if="auth.token" class="auth-btn" :to="`/dashboard/${auth.user}`"
             >Dashboard</RouterLink
@@ -53,6 +53,8 @@
 import { useAuthStore } from '@/stores/auth'
 import { computed, onMounted, ref } from 'vue'
 import { toast } from 'vue3-toastify'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const isMenuOpen = ref(false)
 
@@ -67,8 +69,10 @@ const logout = () => {
   const user = auth.user
   if (!user) {
     toast.success('Successfully Logout.')
+    setTimeout(() => {
+      router.push('/login')
+    }, 1000)
   }
-  window.location.reload()
 }
 </script>
 

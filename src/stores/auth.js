@@ -12,7 +12,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async register({ username, email, password }) {
       try {
-        const response = await axios.post(`http://127.0.0.1:3080/users/register`, {
+        const response = await axios.post(`https://mevn-backend-4.onrender.com/users/register`, {
           username,
           email,
           password,
@@ -39,7 +39,7 @@ export const useAuthStore = defineStore('auth', {
 
     async login({ username, password }) {
       try {
-        const response = await axios.post(`http://127.0.0.1:3080/users/login`, {
+        const response = await axios.post(`https://mevn-backend-4.onrender.com/users/login`, {
           username,
           password,
         })
@@ -54,6 +54,8 @@ export const useAuthStore = defineStore('auth', {
         localStorage.setItem('user', this.user)
         
       } catch (err) {
+        this.user = null,
+        this.token = null
         throw new Error('Invalid email or password')
       }
     },
