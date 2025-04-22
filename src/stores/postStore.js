@@ -67,8 +67,11 @@ export const usePostStore = defineStore('post', {
           `https://mevn-backend-4.onrender.com/users/post/${userid}`,
           formdata,
         )
+        return { success: true, data: post.data }
       } catch (error) {
-        this.error = err.response?.data?.message || 'Failed to create post'
+        // Changed 'err' to 'error' here
+        this.error = error.response?.data?.message || 'Failed to create post'
+        return { success: false, message: this.error }
       } finally {
         this.loading = false
       }
