@@ -25,7 +25,7 @@
             <p class="text-gray-600">Share your thoughts, ideas, and creativity with the world.</p>
           </div>
 
-          <form class="space-y-6">
+          <form @submit="handleSubmit" class="space-y-6">
             <div class="space-y-1">
               <label class="block font-medium text-gray-700 mb-1">Title</label>
               <div class="relative">
@@ -69,7 +69,7 @@
             </div>
 
             <button 
-              @click="handleSubmit" 
+               
               type="submit"
               class="w-full bg-primary text-black px-6 py-4 rounded-xl font-medium hover:bg-primary-dark transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
             >
