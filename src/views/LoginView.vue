@@ -128,11 +128,11 @@ const initialValues = {
 const onSubmitHandler = async (values, { resetForm }) => {
   try {
     const message = await auth.login(values)
-    onSubmitHandler(()=>{
+    setTimeout(()=>{
       toast.success("Login Successful:>")
 
     },1000)
-
+    resetForm()
     router.push('/')
 
   } catch (err) {
