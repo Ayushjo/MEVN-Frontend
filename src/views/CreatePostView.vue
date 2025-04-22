@@ -25,7 +25,7 @@
             <p class="text-gray-600">Share your thoughts, ideas, and creativity with the world.</p>
           </div>
 
-          <form @submit="handleSubmit" class="space-y-6">
+          <form @submit.prevent="handleSubmit" class="space-y-6">
             <div class="space-y-1">
               <label class="block font-medium text-gray-700 mb-1">Title</label>
               <div class="relative">
@@ -34,6 +34,7 @@
                   type="text" 
                   placeholder="Enter post title"
                   class="w-full p-4 pl-5 rounded-xl border border-gray-300 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm" 
+                  required
                 />
                 <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
                   <span class="text-lg">✏️</span>
@@ -49,6 +50,7 @@
                   rows="6" 
                   placeholder="Write your content here..."
                   class="w-full p-4 pl-5 rounded-xl border border-gray-300 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm resize-none"
+                  required
                 ></textarea>
                 <div class="absolute top-4 right-0 flex items-center pr-4 pointer-events-none">
                   <span class="text-lg">📝</span>
@@ -69,13 +71,17 @@
             </div>
 
             <button 
-               
               type="submit"
               class="w-full bg-primary text-black px-6 py-4 rounded-xl font-medium hover:bg-primary-dark transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+              :disabled="isSubmitting"
             >
-              <span>Publish Post</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <span>{{ isSubmitting ? 'Publishing...' : 'Publish Post' }}</span>
+              <svg v-if="!isSubmitting" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
+              </svg>
+              <svg v-else class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
             </button>
           </form>
@@ -105,37 +111,63 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { usePostStore } from '@/stores/postStore'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 
 const route = useRoute()
+const router = useRouter()
 const userid = route.params.userid
 const title = ref('')
 const content = ref('')
 const image = ref(null)
+const isSubmitting = ref(false)
 const post = usePostStore()
-//to upload image 
+
+// To upload image 
 function handleImageUpload(e) {
   const file = e.target.files[0]
   if (file) {
     image.value = file
   }
 }
-//to send image to backend we used formdata as we cant send it through json.
-async function handleSubmit() {
-  const formData = new FormData()
-  formData.append('title', title.value)
-  formData.append('content', content.value)
-  if (image.value) {
-    formData.append('image', image.value)
-  }
 
-  await post.createPost(formData,userid) // ✅ This calls your Pinia function
-  toast.success("Post created successfully.!")
-  // Optional: Reset form
-  title.value = ''
-  content.value = ''
-  image.value = null
+// To send image to backend we used formdata as we can't send it through json
+async function handleSubmit() {
+  if (!title.value || !content.value) {
+    toast.error("Please fill in all required fields")
+    return
+  }
+  
+  try {
+    isSubmitting.value = true
+    
+    const formData = new FormData()
+    formData.append('title', title.value)
+    formData.append('content', content.value) // Fixed: was using title.value for content
+    if (image.value) {
+      formData.append('image', image.value)
+    }
+
+    const response = await post.createPost(formData, userid)
+    
+    if (response && response.success) {
+      toast.success("Post created successfully!")
+      // Reset form after confirmed success
+      title.value = ''
+      content.value = ''
+      image.value = null
+      
+      // Optional: redirect to posts or dashboard
+      // router.push(`/dashboard/${userid}`)
+    } else {
+      toast.error(response?.message || "Failed to create post")
+    }
+  } catch (error) {
+    console.error("Post creation error:", error)
+    toast.error(`Error creating post: ${error.message || "Unknown error"}`)
+  } finally {
+    isSubmitting.value = false
+  }
 }
 
 // Typing animation
@@ -157,6 +189,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* Add any additional scoped styles here */
+
 :root {
   --primary: #7c3aed;
   --primary-dark: #6d28d9;
