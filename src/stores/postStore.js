@@ -82,7 +82,7 @@ export const usePostStore = defineStore('post', {
           `https://mevn-backend-4.onrender.com/users/post/${postid}`,
           formdata,
         )
-        return { success: true, data: response.data }
+        return { success: true, data: response.data.message }
       } catch (error) {
         // Changed 'err' to 'error' here
         this.error = error.response?.data?.message || 'Failed to update post'
