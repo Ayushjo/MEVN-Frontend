@@ -78,13 +78,15 @@ export const usePostStore = defineStore('post', {
     },
     async updatePost(formdata, postid) {
       try {
-        const post = await axios.post(
-          `https://mevn-backend-4.onrender.com/users/updatePost/${postid}`,
+        const response = await axios.put(
+          `https://mevn-backend-4.onrender.com/users/post/${postid}`,
           formdata,
         )
-        this.posts = post.data
+        return { success: true, data: response.data }
       } catch (error) {
-        this.error = err.response?.data?.message || 'Failed to create post'
+        // Changed 'err' to 'error' here
+        this.error = error.response?.data?.message || 'Failed to update post'
+        return { success: false, message: this.error }
       } finally {
         this.loading = false
       }
