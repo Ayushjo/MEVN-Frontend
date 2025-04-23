@@ -163,15 +163,21 @@ async function handleSubmit(postid) {
     formData.append('image', image.value)
   }
 
-  await postStore.updatePost(formData, postid) // ✅ This calls your Pinia function
+  const res = await postStore.updatePost(formData, postid) // ✅ This calls your Pinia function
   // Optional: Reset form
   title.value = ''
   content.value = ''
   image.value = null
-  toast.success('Successfully updated the Post')
-  setTimeout(() => {
-    window.location.reload()
-  }, 2000)
+  if(res){
+
+    toast.success('Successfully updated the Post')
+    setTimeout(() => {
+      window.location.reload()
+    }, 2000)
+  }
+  else{
+    toast.error("Sorry, couldn't upload your post!")
+  }
 }
 
 onMounted(async () => {
