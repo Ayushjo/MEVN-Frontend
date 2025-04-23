@@ -168,7 +168,7 @@ async function handleSubmit(postid) {
   title.value = ''
   content.value = ''
   image.value = null
-  if(res){
+  if(res.success===true){
 
     toast.success('Successfully updated the Post')
     setTimeout(() => {
@@ -176,7 +176,7 @@ async function handleSubmit(postid) {
     }, 2000)
   }
   else{
-    toast.error("Sorry, couldn't upload your post!")
+    toast.error(res.data)
   }
 }
 
