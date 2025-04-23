@@ -78,7 +78,7 @@ export const usePostStore = defineStore('post', {
     },
     async updatePost(formdata, postid) {
       try {
-        const response = await axios.post(
+        const response = await axios.put(
           `https://mevn-backend-4.onrender.com/users/post/${postid}`,
           formdata,
         )
